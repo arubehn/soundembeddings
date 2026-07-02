@@ -8,6 +8,7 @@ from tqdm import tqdm
 
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+IGNORE_SEGMENTS = ["+", "∼"]
 
 
 class SkipGram(torch.nn.Module):
@@ -85,7 +86,7 @@ class Sound2Vec(object):
                 context_bow.append(context)
 
         X, Y = [], []
-        for sound_id, context in tqdm(zip(target_sounds, context_bow), desc="Generating training data (2)"):
+        for sound_id, context in tqdm(zip(target_sounds, context_bow), desc="Generating training data (2)", total=len(target_sounds)):
             sound = self.id2sound.get(sound_id)
             if not sound:
                 continue
@@ -107,7 +108,7 @@ class Sound2Vec(object):
 
         id = 0
         for sound, count in self.sound_counts.items():
-            if sound != "+" and count >= freq_threshold:
+            if sound not in IGNORE_SEGMENTS and count >= freq_threshold:
                 self.id2sound[id] = sound
                 self.sound2id[sound] = id
                 id += 1
@@ -117,7 +118,7 @@ class Sound2Vec(object):
         for form in tqdm(forms, desc="Tokenizing forms"):
             tokenized_form = []
             for segment in form:
-                if segment == "+":
+                if segment in IGNORE_SEGMENTS:
                     continue
                 id = self.sound2id.get(segment, -1)
                 tokenized_form.append(id)
@@ -185,7 +186,7 @@ class Sound2Vec(object):
                 sound: model.embeddings(
                     torch.tensor(self.sv.get_vec(sound), device=self.device).to(torch.float32)
                 ).detach().cpu().tolist()
-                for i, sound in self.id2sound.items()
+                for i, sound in self.id2sound.items() if self.sv.validate(sound)
             }
             self.embedding_layer = model.embeddings
 
