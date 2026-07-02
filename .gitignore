@@ -1,0 +1,5 @@
+lexibank-analysed
+embeddings.json
+embeddings.pt
+.venv
+.idea
