@@ -138,7 +138,7 @@ class Sound2Vec(object):
         model.to(self.device)
 
         criterion = torch.nn.CrossEntropyLoss()
-        optimizer = torch.optim.Adam(model.parameters(), lr=kwargs.get("lr", 0.001))
+        optimizer = torch.optim.Adam(model.parameters(), lr=kwargs.get("lr", 1e-7))
 
         best_loss = torch.inf
         wait = 0
@@ -151,8 +151,8 @@ class Sound2Vec(object):
             model.train()
             epoch_loss = 0
             for X_train, Y_train in train_dataloader:
-                X_train.to(self.device)
-                Y_train.to(self.device)
+                X_train = X_train.to(self.device)
+                Y_train = Y_train.to(self.device)
                 pred = model(X_train)
                 loss = criterion(pred, Y_train)
                 epoch_loss += loss.item()
@@ -163,6 +163,8 @@ class Sound2Vec(object):
             model.eval()
             val_loss = 0
             for X_test, Y_test in test_dataloader:
+                X_test = X_test.to(self.device)
+                Y_test = Y_test.to(self.device)
                 with torch.no_grad():
                     val_loss += criterion(model(X_test), Y_test).item()
 
