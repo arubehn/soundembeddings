@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "soundembeddings"
+version = "0.1.0"
+description = "Distributional representations of sounds from cross-linguistic transcriptions"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "Arne Rubehn", email = "arne.rubehn@uni-passau.de" }
+]
+maintainers = [
+    { name = "Arne Rubehn", email = "arne.rubehn@uni-passau.de" }
+]
+keywords = ["linguistics", "embeddings", "sounds", "phonetics", "phonology", "computational linguistics"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "numpy>=1.24",
+    "soundvectors"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black",
+    "ruff",
+    "mypy",
+]
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme",
+]
+train = [
+    "torch"
+]
+
+[project.urls]
+Repository = "https://github.com/arubehn/soundembeddings"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["soundembeddings*"]
+
+[tool.setuptools.package-data]
+"soundembeddings.data" = ["*.npy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -2,3 +2,6 @@ lexibank-analysed
 .venv
 .idea
 *.pdf
+*.egg-info
+build
+__pycache__

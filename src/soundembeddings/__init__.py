@@ -1,0 +1,1 @@
+from soundembeddings.soundembeddings import SoundEmbeddings
