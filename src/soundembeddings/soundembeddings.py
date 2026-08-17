@@ -25,3 +25,8 @@ class SoundEmbeddings(object):
         emb1 = self.embed(s1)
         emb2 = self.embed(s2)
         return float(np.dot(emb1, emb2) / (np.linalg.norm(emb1) * np.linalg.norm(emb2)))
+
+    def vector_similarity(self, s1, s2):
+        vec1 = self.sv.get_vec(s1)
+        vec2 = self.sv.get_vec(s2)
+        return float(np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2)))

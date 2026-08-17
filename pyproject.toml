@@ -48,6 +48,10 @@ docs = [
 train = [
     "torch"
 ]
+eval = [
+    "seaborn",
+    "matplotlib"
+]
 
 [project.urls]
 Repository = "https://github.com/arubehn/soundembeddings"
