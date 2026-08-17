@@ -1,3 +1,4 @@
 lexibank-analysed
 .venv
 .idea
+*.pdf
